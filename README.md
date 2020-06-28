@@ -48,7 +48,11 @@ Install docker
 ```
 yum install docker-ce -y --nobest
 ```
-
+Start always running in docker
+```
+sytemctl start docker
+sytemctl enable docker
+```
 
 lets start install k8s
 
@@ -120,6 +124,47 @@ hostnamectl set-hostname slave2
 exec bash
 ```
 
+set up Local DNS Name server
+```
+vim /etc/hosts
+```
+edit in hosts like this
+``` 
+192.168.43.35  master
+192.168.43.151 slave1
+192.168.43.156 slave2
+```
+
+same thing in slave1 and slave2 VM's
+it is easier to transfer to another machine
+slave1 in VM's
+```
+scp /etc/hosts 192.168.43.151:/etc/hosts
+```
+slave2 in VM's 
+```
+scp /etc/hosts 192.168.43.156:/etc/hosts
+```
+
+Now,
+Create kubeadm ( master )
+```
+kubeadm init --pod-networks=10.10.1.0/16
+```
+
+add config
+```
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+now join nodes like slave1 and slave2
+```
+kubeadm join 192.168.43.35:6443 --token 1z41ua.pd2l2pl5df286hcb     --discovery-token-ca-cert-hash sha256:4547a1aacde3bd0b1ff37fe27619aa858081634717b212e609dfeba96e0402be
+```
+
+## This is done 😀😀
 
 
 
