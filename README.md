@@ -1,4 +1,4 @@
-# How to setup Nodes in k8s using Virtual Box in Redhat 8 (CLI)
+# How to setup Muti-Nodes in k8s using Virtual Box in Redhat 8 (CLI)
 
 
 Create Folder
